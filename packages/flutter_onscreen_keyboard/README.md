@@ -155,6 +155,11 @@ By default, the keyboard selects the appropriate layout based on platform:
 - `MobileKeyboardLayout` for Android/iOS/Fuchsia
 - `DesktopKeyboardLayout` for macOS/Windows/Linux
 
+You can also opt into language-specific presets:
+
+- `RussianKeyboardLayout`
+- `KazakhKeyboardLayout`
+
 You can also explicitly set a custom layout:
 
 ```dart
