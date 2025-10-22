@@ -32,6 +32,7 @@ class OnscreenKeyboard extends StatefulWidget {
     this.aspectRatio,
     this.showControlBar = true,
     this.buildControlBarActions,
+    this.onLanguageSwitch,
   });
 
   /// The main application child widget.
@@ -67,6 +68,14 @@ class OnscreenKeyboard extends StatefulWidget {
   /// {@macro controlBar.actions}
   final ActionsBuilder? buildControlBarActions;
 
+  /// Callback triggered when the layout switch action key is pressed.
+  ///
+  /// This is typically used to toggle between multiple [KeyboardLayout]
+  /// instances (e.g. different languages). Rebuild the keyboard with a
+  /// different [layout] when this callback is invoked. The callback is invoked
+  /// when a key with [ActionKeyType.language] is tapped.
+  final VoidCallback? onLanguageSwitch;
+
   /// A builder to wrap the app with [OnscreenKeyboard].
   ///
   /// This provides a convenient way to globally integrate the
@@ -85,6 +94,8 @@ class OnscreenKeyboard extends StatefulWidget {
   /// );
   /// ```
   ///
+  /// - [key]: Optional [Key] to force the keyboard to rebuild when changing
+  ///   layouts dynamically.
   /// - [theme]: Custom theme configuration for the keyboard, such as color,
   ///   shadow, border, margin, and shape. If null, defaults will be applied.
   /// - [layout]: Keyboard layout to render. Falls back to default layout
@@ -105,6 +116,7 @@ class OnscreenKeyboard extends StatefulWidget {
   /// See also:
   ///  - [OnscreenKeyboard.new], which creates an [OnscreenKeyboard] widget.
   static TransitionBuilder builder({
+    Key? key,
     OnscreenKeyboardThemeData? theme,
     KeyboardLayout? layout,
     WidthGetter? width,
@@ -112,8 +124,10 @@ class OnscreenKeyboard extends StatefulWidget {
     Widget? dragHandle,
     double? aspectRatio,
     ActionsBuilder? buildControlBarActions,
+    VoidCallback? onLanguageSwitch,
   }) => (BuildContext context, Widget? child) {
     return OnscreenKeyboard(
+      key: key,
       theme: theme,
       layout: layout,
       width: width,
@@ -121,6 +135,7 @@ class OnscreenKeyboard extends StatefulWidget {
       dragHandle: dragHandle,
       aspectRatio: aspectRatio,
       buildControlBarActions: buildControlBarActions,
+      onLanguageSwitch: onLanguageSwitch,
       child: child!,
     );
   };
@@ -228,6 +243,11 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
       setState(() => _pressedActionKeys.add(key.name));
     }
 
+    if (key.name == ActionKeyType.language) {
+      widget.onLanguageSwitch?.call();
+      return;
+    }
+
     if (activeTextField?.controller case final controller?
         when controller.selection.isValid) {
       final originalText = controller.text;
@@ -310,6 +330,9 @@ class _OnscreenKeyboardState extends State<OnscreenKeyboard>
         case ActionKeyType.capslock:
           break;
         case ActionKeyType.shift:
+          break;
+        case ActionKeyType.language:
+          // Already handled above to allow switching without a focused field.
           break;
       }
     }

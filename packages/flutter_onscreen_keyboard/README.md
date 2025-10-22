@@ -155,6 +155,36 @@ By default, the keyboard selects the appropriate layout based on platform:
 - `MobileKeyboardLayout` for Android/iOS/Fuchsia
 - `DesktopKeyboardLayout` for macOS/Windows/Linux
 
+You can also opt into language-specific presets:
+
+- `RussianKeyboardLayout`
+- `KazakhKeyboardLayout`
+
+Both Cyrillic presets include a dedicated globe action key. Hook into the
+`onLanguageSwitch` callback to toggle layouts when the globe is pressed. The
+action uses the `ActionKeyType.language` identifier so you can also listen for
+it via `addRawKeyDownListener` if you need custom routing:
+
+```dart
+class _MyAppState extends State<MyApp> {
+  bool useRussian = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      builder: OnscreenKeyboard.builder(
+        key: ValueKey(useRussian),
+        layout: useRussian
+            ? const RussianKeyboardLayout()
+            : const KazakhKeyboardLayout(),
+        onLanguageSwitch: () => setState(() => useRussian = !useRussian),
+      ),
+      // ...
+    );
+  }
+}
+```
+
 You can also explicitly set a custom layout:
 
 ```dart
