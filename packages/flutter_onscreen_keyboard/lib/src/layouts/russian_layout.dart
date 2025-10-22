@@ -89,14 +89,9 @@ class RussianKeyboardLayout extends KeyboardLayout {
         ),
         const KeyboardRow(
           keys: [
-            OnscreenKeyboardKey.action(
-              name: ActionKeyType.language,
-              child: Icon(Icons.language_rounded),
-            ),
             OnscreenKeyboardKey.text(
               primary: ' ',
               child: Icon(Icons.space_bar_rounded),
-              flex: 120,
             ),
           ],
         ),
