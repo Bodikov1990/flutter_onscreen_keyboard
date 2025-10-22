@@ -6,7 +6,9 @@ import 'package:flutter_onscreen_keyboard/src/constants/action_key_type.dart';
 ///
 /// This layout mirrors the common Windows/macOS hardware layout including
 /// Russian-specific punctuation such as `№`, `;`, `?`, etc. Use it to provide
-/// a familiar experience for Russian-speaking users.
+/// a familiar experience for Russian-speaking users. The bottom row exposes a
+/// globe key wired to [ActionKeyType.language] so apps can surface a language
+/// toggle next to the space bar.
 class RussianKeyboardLayout extends KeyboardLayout {
   /// Creates a [RussianKeyboardLayout] instance.
   const RussianKeyboardLayout();
@@ -89,9 +91,14 @@ class RussianKeyboardLayout extends KeyboardLayout {
         ),
         const KeyboardRow(
           keys: [
+            OnscreenKeyboardKey.action(
+              name: ActionKeyType.language,
+              child: Icon(Icons.language_rounded),
+            ),
             OnscreenKeyboardKey.text(
               primary: ' ',
               child: Icon(Icons.space_bar_rounded),
+              flex: 120,
             ),
           ],
         ),

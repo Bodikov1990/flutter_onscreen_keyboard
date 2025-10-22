@@ -72,7 +72,8 @@ class OnscreenKeyboard extends StatefulWidget {
   ///
   /// This is typically used to toggle between multiple [KeyboardLayout]
   /// instances (e.g. different languages). Rebuild the keyboard with a
-  /// different [layout] when this callback is invoked.
+  /// different [layout] when this callback is invoked. The callback is invoked
+  /// when a key with [ActionKeyType.language] is tapped.
   final VoidCallback? onLanguageSwitch;
 
   /// A builder to wrap the app with [OnscreenKeyboard].

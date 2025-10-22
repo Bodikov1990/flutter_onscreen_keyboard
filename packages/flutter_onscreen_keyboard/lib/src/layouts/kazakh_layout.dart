@@ -7,7 +7,9 @@ import 'package:flutter_onscreen_keyboard/src/constants/action_key_type.dart';
 /// The layout follows the Windows/macOS "Kazakh" keyboard arrangement with all
 /// additional Kazakh characters (`ә`, `ғ`, `қ`, `ң`, `ө`, `ұ`, `ү`, `һ`, `і`).
 /// This keeps modifier keys and punctuation in familiar locations while
-/// exposing the extended alphabet as dedicated keys.
+/// exposing the extended alphabet as dedicated keys. A globe key mapped to
+/// [ActionKeyType.language] sits next to the space bar for quick language
+/// toggling.
 class KazakhKeyboardLayout extends KeyboardLayout {
   /// Creates a [KazakhKeyboardLayout] instance.
   const KazakhKeyboardLayout();
@@ -126,9 +128,14 @@ class KazakhKeyboardLayout extends KeyboardLayout {
         ),
         const KeyboardRow(
           keys: [
+            OnscreenKeyboardKey.action(
+              name: ActionKeyType.language,
+              child: Icon(Icons.language_rounded),
+            ),
             OnscreenKeyboardKey.text(
               primary: ' ',
               child: Icon(Icons.space_bar_rounded),
+              flex: 120,
             ),
           ],
         ),
